@@ -14,7 +14,7 @@ grid布局：http://www.ruanyifeng.com/blog/2020/08/five-css-layouts-in-one-line
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}q
+}
 .item{
    flex: 0 1 150px;
    margin: 5px;
