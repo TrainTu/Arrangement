@@ -62,7 +62,7 @@
             }
 
             request.onupgradeneeded = function (event) {
-                // 数据库创建或升级的时候会触发
+                // 数据库创建或升级的时候会触发, 在最初创建数据库时会默认调用一次 
                 console.log('onupgradeneeded')
                 db = event.target.result
                 let objectStore
