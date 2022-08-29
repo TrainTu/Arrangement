@@ -18,7 +18,7 @@
 
 + then方法的参数
     + 两个参数
-    + onFulfilled再promise完成后被调用，onRejected再promise被拒绝执行后调用
+    + onFulfilled再promise1完成后被调用，onRejected再promise1被拒绝执行后调用
     + 只被调用一次
 + then方法的调用：
     + 可以调用多次
@@ -66,34 +66,35 @@ const promise4 = promise3.then(console.log); //1
 
 ```js
 //Promise构造函数
-new Promise(function(resolve, reject) { //函数作为参数
-    resolve(value) //resolve函数将promise状态从pending变成resolved(fulfilled)
-    reject(reason) //reject函数将promise状态从pending变成rejected
+new Promise(function(resolve,reject){//函数作为参数
+    resolve(value)//resolve函数将promise状态从pending变成resolved(fulfilled)
+    reject(reason)//reject函数将promise状态从pending变成rejected
 })
 
 //Promise静态方法
-Promise.resolve(param) //等同于new Promise(function(resolved,reject){resolved(param)})
-Promise.reject(reason) //等同于new Promise(function(resolved,reject){reject(reason)})
-Promise.all()
-Promise.allSettled()
-Promise.race()
+Promise.resolve(param)//等同于new Promise(function(resolved,reject){resolved(param)})
+Promise.reject(reason)//等同于new Promise(function(resolved,reject){reject(reason)})
+Promise.all() // 全部fulfilled最终才是fulfilled
+Promise.allSettled() // 全部状态改变, 不管成功或失败, 最终返回fulfilled
+Promise.race() // 根据第一个返回的状态决定最终的返回的状态, 赛跑
 
-//Promise实例方法
-promise.then(onfulfilled, onRejected) //Promise状态改变之后的回调，返回新的promise对象
-promise.catch(function(reason) {}) //同promise.then(null,onRejected),promise状态为rejected的回调
-promise.finally(function(reason) {}) //同promise.then(function(function(){},function(){})),不管promise状态如何都会执行
+//Promise实例方法 
+promise.then(onfulfilled,onRejected)//Promise状态改变之后的回调，返回新的promise对象
+promise.catch(function(reason){})//同promise.then(null,onRejected),promise状态为rejected的回调
+promise.finally(function(reason){})//同promise.then(function(function(){},function(){})),不管promise状态如何都会执行
+
 ```
 
 + 注意点
     1. then、catch返回的promise是新的promise，不是原来的promise
-    2. Promise对象的错误会“冒泡”，知道被捕获位置，错误会被下一个catch语句捕获
+    2. Promise对象的错误会“冒泡”，直到被捕获位置，错误会被下一个catch语句捕获
 
 ### 03 Promise实践
 + 最佳实践
-    + ·不要忘记catch捕获错误
-    + ·then方法中使用return
-    + ·传递函数给then方法
-    + ·不要吧promise写成嵌套
+    + 不要忘记catch捕获错误
+    + then方法中使用return
+    + 传递函数给then方法
+    + 不要把promise写成嵌套
 
 > 需求: 3秒之后面一次红灯，再过2秒之后两一次绿灯，再过1秒面一次黄灯，用promise实现多次交替亮灯的效果 (console.log模拟亮灯)
 
@@ -189,7 +190,8 @@ function isPromise(p) {
     return p instanceof Promise;
 } 
 // promise的解析
-function resolvePromise(promise, x) { // x 与promise相同  
+function resolvePromise(promise, x) { 
+    // x 与promise相同  
     if (promise === x) {
         rejectedPromise(promise, new TypeError("cant be the same"));
         return;
