@@ -1,31 +1,37 @@
-01 promise规范/A+  要求  //https://www.jianshu.com/p/e0f91e03d6c1
-·术语
-·promise：    一个有then方法的对象或函数，行为符合本规范
-·thenable： 一个定义了then方法的对象或函数
-·值，value： 任何JavaScript的合法值
-·异常，exception：throw语句抛出的值
-·拒绝原因，reason：一个表示promise被拒绝原因的值
+01 promise规范/A+  
+>要求  //https://www.jianshu.com/p/e0f91e03d6c1
 
-·promise的状态
-pending
-fulfilled
-rejected
+###术语
++ promise：    一个有then方法的对象或函数，行为符合本规范
++ thenable： 一个定义了then方法的对象或函数
++ 值，value： 任何JavaScript的合法值
++ 异常，exception：throw语句抛出的值
++ 拒绝原因，reason：一个表示promise被拒绝原因的值
 
-·then方法
-const promise2  = promise1.then(onFulfilled, onRejected); 
-then方法的参数
-两个参数参数
-onFulfilled再promise完成后被调用，onRejected再promise被拒绝执行后调用
-只被调用一次
-then方法的调用：可以调用多次
-then方法的返回值：promise
+### promise的状态
++ pending
++ fulfilled
++ rejected
 
-·promise的解析过程
-抽象模型 resoleve(promise, x)
-如果promise和X指向相同的值
-如果x是一个promise
-如果x是一个对象或一个函数
-如果x不是对象也不是函数
+### then方法
+> const promise2  = promise1.then(onFulfilled, onRejected); 
+
++ then方法的参数
+    + 两个参数
+    + onFulfilled再promise完成后被调用，onRejected再promise被拒绝执行后调用
+    + 只被调用一次
++ then方法的调用：
+    + 可以调用多次
++ then方法的返回值：
+    + promise
+
+### promise的解析过程
+> 抽象模型 resoleve(promise, x)
+
++ 如果promise和X指向相同的值
++ 如果x是一个promise
++ 如果x是一个对象或一个函数
++ 如果x不是对象也不是函数
 
 ```js
 //代码执行
@@ -78,23 +84,23 @@ promise.catch(function(reason) {}) //同promise.then(null,onRejected),promise状
 promise.finally(function(reason) {}) //同promise.then(function(function(){},function(){})),不管promise状态如何都会执行
 ```
 
-·注意点
-1.then、catch返回的promise是新的promise，不是原来的promise
-2. Promise对象的错误会“冒泡”，知道被捕获位置，错误会被下一个catch语句捕获
++ 注意点
+    1. then、catch返回的promise是新的promise，不是原来的promise
+    2. Promise对象的错误会“冒泡”，知道被捕获位置，错误会被下一个catch语句捕获
 
-03 Promise实践
-·最佳实践
-·不要忘记catch捕获错误
-·then方法中使用return
-·传递函数给then方法
-·不要吧promise写成嵌套
-//3秒之后面一次红灯，再过2秒之后两一次绿灯，再过1秒面一次黄灯，用promise实现多次交替亮灯的效果
-//console.log模拟亮灯
+### 03 Promise实践
++ 最佳实践
+    + ·不要忘记catch捕获错误
+    + ·then方法中使用return
+    + ·传递函数给then方法
+    + ·不要吧promise写成嵌套
 
-//拆解：
-//1. 多少秒后亮莫格颜色的灯
-//2. 按顺序两一批灯
-//3. 循环顺序亮一批灯
+> 需求: 3秒之后面一次红灯，再过2秒之后两一次绿灯，再过1秒面一次黄灯，用promise实现多次交替亮灯的效果 (console.log模拟亮灯)
+
+> 拆解：
+> 1. 多少秒后亮莫格颜色的灯
+> 2. 按顺序两一批灯
+> 3. 循环顺序亮一批灯
 
 ```js
 function light(color, second) {
@@ -129,11 +135,12 @@ orderLights([{
 }])
 ```
 
-·根据Promise/A+规范实现promise，使用promises-aplus/pomises-tests插件验证
+### Promise实现
+> 根据Promise/A+规范实现promise，使用promises-aplus/pomises-tests插件验证
 
-//步骤一：了解promise规范
-//步骤二：实现
-//步骤三：测试
+> 1. 步骤一：了解promise规范
+> 1. 步骤二：实现
+> 1. 步骤三：测试
 
 ```js
 const statusMap = {
