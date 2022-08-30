@@ -1,32 +1,35 @@
-async function test1 (){
+const p1 = () => new Promise((r,j)=>{
+    console.log(1)
+    r(1)
+})
+
+const p2 = () => new Promise((r,j)=>{
+    console.log(2)
+    j(2)
+})
+
+const p3 = () => new Promise((r,j)=>{
+    console.log(3)
+    j(3)
+})
+
+async function testAwait(){
     try {
-        await f1();
-        await f2();
+        const r1 = await p1();
+        const r2 = await p2();
+        const r3 = await p3();
     } catch (err) {
-        console.log("try catch", err)  // 只能捕获到一个第一个错误
-    }
+        console.log("错误捕获",err)
+    }    
 }
 
-async function test2 (){
-    f1().then(()=>{
-        f2().then(()=>{
-
-        }).catch((err)=>{
-            console.log("Promise2 then", err) // 不会执行
-        })
-    })
-    .catch((err)=>{
-        console.log("Promise1 then", err)  // 只能捕获到对应的错误
+function testThen(){
+    p1().then(()=> p2()).then(()=> p3()).catch((err)=>{
+      console.log("错误捕获",err)
     })
 }
 
-const f1 = ()=>{
-    return Promise.reject("错误1")    
-}
 
-const f2 = ()=>{
-    return Promise.reject("错误2")    
-}
 
-test1()
-test2()
+testAwait()
+testThen()

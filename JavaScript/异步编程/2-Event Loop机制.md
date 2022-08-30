@@ -1,32 +1,36 @@
-/* 01 浏览器的Event Loop
-·异步实现
-宏观：浏览器多线程
-微观：Event Loop
+### 01 浏览器的Event Loop
++ 异步实现
+  + 宏观：浏览器多线程
+  + 微观：Event Loop
 
-·宏任务
-script
-setTimeout/setInterval
-setImmediate  --属于nodejs
-I/O
-UI render  --UI渲染
-·微任务
-promise
-Object.observe --监听对象变化
-MutationObserver  --监听dom结构的变化
-postMessage  --window对象之间通信的方法
++ 宏任务
+  + script
+  + setTimeout/setInterval
+  + setImmediate  --属于nodejs
+  + I/O
+  + UI render  --UI渲染
 
-·Event Loop执行过程
-1.首先执行script，script被称为全局任务，也属于macrotask；
-2.当macrotask执行完以后，执行所有的微任务；
-3.微任务全部执行完，再去取任务队列中的宏任务执行。
++ 微任务
+  + promise
+  + Object.observe --监听对象变化
+  + MutationObserver  --监听dom结构的变化
+  + postMessage  --window对象之间通信的方法
 
-注意
-1.一个Event Loop有一个或多个任务队列，每个event loop有一个微任务队列
-2.requestAnimationFrame处于渲染阶段
++ Event Loop执行过程
+  1. 首先执行script，script被称为全局任务，也属于macrotask；
+  2. 当macrotask执行完以后，执行所有的微任务；
+  3. 微任务全部执行完，再去取任务队列中的宏任务执行。
 
-·栈
-先进后出不是赋值算进，使用算出；而是赋值算进，被清理算出。而且在同一函数作用域下的变量，应该位于栈的同一层。 */
+> 注意
+>  1. 一个Event Loop有一个或多个任务队列，每个event loop有一个微任务队列
+>  2. requestAnimationFrame处于渲染阶段
 
+
++ 栈
+
+  先进后出不是赋值算进，使用算出；而是赋值算进，被清理算出。而且在同一函数作用域下的变量，应该位于栈的同一层。 */
+
+```js
 console.log("1");
 setTimeout(function() {
   console.log("2");
@@ -79,19 +83,22 @@ new Promise(function(resolve) {
   console.log("promise2");
 });
 
-/* 02 node.js的Event Loop
-·六个阶段
-    1 timer：执行timer的回调
-    2 pending callback：系统操作的回调
-    3 idle，pepare 内部使用
-    4 poll：等待新I/O事件
-    5 check：执行setImmediate 回调
-    6 close callback：内部使用
-·poll阶段的两个主要功能
-    1.计算应该被block多久
-    2.处理poll队列的事件 */
+```
 
+### 02 node.js的Event Loop
++ 六个阶段
+  1. timer：执行timer的回调
+  2. pending callback：系统操作的回调
+  3. idle，pepare 内部使用
+  4. poll：等待新I/O事件
+  5. check：执行setImmediate 回调
+  6. close callback：内部使用
 
++ poll阶段的两个主要功能
+  1. 计算应该被block多久
+  2. 处理poll队列的事件
+
+```js
  console.log(1);
  process.nextTick(() => {
    console.log("nextTick callback");
@@ -152,6 +159,8 @@ someAsyncOperation(() => {
      console.log("nextTick1");
    });
  });
+
+ ```
 
 
 
