@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    /* 
+     * 异步更新队列的目的:
+     *  为了防止多处依赖每次更新时都触发页面渲染
+     * 
+     * 解决方法: 异步渲染队列
+     *  在多处依赖收集时, 将监听事件放入微任务队列, 等待主执行栈任务(宏任务)执行完毕之后, 立马执行微任务;
+     *  从而减少页面渲染损耗
+     * */
+
+
+    /* =======================源码========================= */ 
+    let active;
+
+    let watch = function (cb) { // 定义监听器
+        active = cb;
+        active();
+        active = null;
+    };
+
+    let queue = []; // 任务队列
+
+    let nextTick = cb => { // 构建微任务队列, 等宏任务执行完批量执行微任务
+        return Promise.resolve().then(cb);
+    }; 
+
+    let queueJob = dep => {
+        if (!queue.includes(dep)) {
+            queue.push(dep);
+            nextTick(flushJobs); // 执行构建微任务队列
+        }
+    };
+
+    let flushJobs = () => { // 执行任务方法
+        let job;
+        while (queue.length > 0) {
+            job = queue.shift();
+            job && job();
+        }
+    };
+
+    class Dep {
+        constructor() {
+            this.deps = new Set();
+        }
+
+        depend() {
+            if (active) {
+                this.deps.add(active);
+            }
+        }
+
+        notify() {
+            this.deps.forEach(dep => queueJob(dep));
+        }
+    }
+
+    let ref = initValue => {
+        let value = initValue;
+        let dep = new Dep();
+
+        return Object.defineProperty({}, "value", {
+            get() {
+                dep.depend();
+                return value;
+            },
+            set(newValue) {
+                value = newValue;
+                dep.notify();
+            }
+        });
+    };
+
+
+
+    /* =======================使用========================= */ 
+    let str;
+    let count = 0;
+
+    console.log("数据初始化")
+    let x = ref('word1');
+    let y = ref('word2');
+    let z = ref('word3');    
+    
+    watch(() => {
+        str = `hello ${x.value} ${y.value} ${z.value}<br>`;
+        console.log(++count, str);
+        document.write(str);
+    });
+    
+    
+    x.value = "change word1";
+    y.value = "change word2";
+    z.value = "change word3";
+    console.log("数据更新之后, 一次性渲染: ", str);
+    
+
+    // nextTick(() => {
+    //     console.log(x.value);
+    //     console.log(2, str);
+    //     console.log(x.value);
+    // });
+
+
+</script>
+
+
+</html>
