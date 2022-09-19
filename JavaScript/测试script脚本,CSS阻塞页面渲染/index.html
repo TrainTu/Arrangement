@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("div8").innerText = "DOMContentLoaded 页面全部加载完毕"
+        });
+    </script>
+    <p>参考链接</p>
+    <p>
+        <a href="https://blog.csdn.net/chenrongwei92/article/details/120691770">script标签中的defer和async</a>
+        <br>
+        <a href="https://blog.csdn.net/weixin_56266471/article/details/126108877">script标签中的defer和async属性</a>  
+        <br>
+        <a href="https://www.cnblogs.com/qianxiaox/p/13761301.html">CSS会阻塞页面显示吗?</a>    
+    </p>
+
+    <div id="div1">执行脚本前</div>
+    <script async="async" src="./index3.js"></script>  
+    <div id="div7">async脚本====执行完了</div>
+    <script src="./index1.js"></script>
+    <div id="div3">普通脚本====执行完了</div>
+    <script defer="defer" src="./index2.js"></script>
+    <div id="div5">defer脚本====执行完了</div>
+    <!-- <script async="async" src="./index3.js"></script>  
+    <div id="div7">脚本3执行完了</div> -->
+    <div id="div8"></div>
+</body>
+
+</html>
