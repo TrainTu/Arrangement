@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+</body>
+
+
+<!-- 可直接在浏览器中执行并查看结果 -->
+
+<script>
+    /* =========================源码======================== */
+
+    let active; // 储存回调函数
+
+    let onXChanged = function (cb) { // -----------------------定义第一个监听方法   =>  
+        active = cb;
+        active();
+        active = null; // 清空
+    };
+
+    let onYChanged = function (cb) { // -----------------------定义第二个监听方法   =>  
+        active = cb;
+        active();
+        active = null; // 清空
+    };
+
+    class Dep { // -------------------------------------------定义一个收集器类   => 收集器
+        constructor() {
+            this.deps = new Set();
+        }
+        depend() {
+            if (active) {
+                this.deps.add(active); //--------------------收集依赖
+            }
+        }
+        notify() {
+            this.deps.forEach(dep => dep()); // -------------执行依赖
+        }
+    }
+
+    let ref = initValue => {
+        let value = initValue;
+        let dep = new Dep(); // -----------------------------实例化收集器
+
+        return Object.defineProperty({}, "value", {
+            get() { // --------------------------------------监听到数据获取, 触发收集
+                dep.depend(); 
+                return value;
+            },
+            set(newValue) { // ------------------------------监听到数据改变, 触发执行
+                value = newValue;
+                dep.notify();
+            }
+        });
+    };
+
+
+
+    /* =====================使用====================== */  
+    let x;
+    let y;
+    let f = n => n * 100;
+
+    x = ref(1); // 200
+
+    onXChanged(() => {
+        document.write(`hello ${x.value}`);
+    });
+
+    onYChanged(() => {
+        y = f(x.value);
+        console.log(y)
+    });
+
+    x.value = 2; // 300
+    x.value = 3; // 400
+
+
+
+</script>
+
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .app1{
+            /* overflow: hidden; */
+            /* float: left; */
+            /* position: absolute; */
+            /* display: flex;             */
+            width: 400px;
+            background-color: brown;
+        }
+        .clear::after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .app1 .child1{
+            width: 50px;
+            height: 50px;
+            background-color: antiquewhite;
+            float: left;
+        }
+        .app1 .child2{
+            width: 50px;
+            height: 100px;
+            background-color: aqua;
+            float: left;
+        }
+        .app1 .child3{
+            /* clear: both; */
+        }
+
+        .app2{
+            display: flow-root;
+            margin-top: 40px;
+            width: 400px;
+            background-color: brown;
+        }
+        .app2 .child1{
+            width: 50px;
+            height: 50px;
+            background-color: antiquewhite;
+            margin-bottom: 40px;
+        }
+        .app2 .child2{
+            width: 50px;
+            height: 100px;
+            background-color: aqua;
+            margin-top: 10px;
+        }
+        .app2 .child3{
+            /* clear: both; */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="app1 clear">
+        <div class="child1">child1</div>
+        <div class="child2">child2</div>
+        <div class="child3"></div>
+    </div>
+
+    <div class="app2">
+        <div class="child1">child1</div>
+        <div class="child2">child2</div>
+        <div class="child3"></div>
+    </div>
+</body>
+</html>
