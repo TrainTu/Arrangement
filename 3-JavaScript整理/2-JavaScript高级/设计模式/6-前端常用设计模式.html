@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container">
+        <span>111</span>
+        <div>
+            <span>222</span>
+            <span>333</span>
+        </div>
+    </div>
+    <script>
+
+        /** =========迭代器模式========= */
+        // 使用Generator遍历DOM树
+        function* traverseDom(elList) {
+            for (const el of elList) {
+                yield el
+
+                const children = [...el.children];
+                if (children.length) {
+                    yield* traverseDom(children)
+                }
+            }
+        }
+
+        const container = document.getElementById("container");
+        const iterator = traverseDom([container]);
+
+        // for(let node of iterator){
+        //     console.log(node)
+        // }
+
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+        console.log(iterator.next());
+
+    </script>
+</body>
+
+</html>

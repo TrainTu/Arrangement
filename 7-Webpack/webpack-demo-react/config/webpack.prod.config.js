@@ -25,7 +25,7 @@ module.exports = merge(common, {
             maxInitialRequests: 6,
             minSize: 10000,
             cacheGroups: {
-                react: { // 分离react和react-dom
+                reactAndDom: { // 分离react和react-dom
                     name: 'chunk-react',
                     test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/, // 匹配规则
                     priority: 20 // 匹配优先级
@@ -36,8 +36,8 @@ module.exports = merge(common, {
                     priority: -10,
                     chunks: 'initial'
                 },
-                common: { // 组件公共抽离
-                    name: 'chunk-common',
+                common111: { // 组件公共抽离
+                    name: 'chunk-common111',
                     minChunks: 2,
                     priority: -20,
                     chunks: 'initial',
