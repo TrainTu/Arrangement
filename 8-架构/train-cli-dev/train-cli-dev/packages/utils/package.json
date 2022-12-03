@@ -1,0 +1,28 @@
+{
+  "name": "@train-cli-dev/utils",
+  "version": "1.0.0",
+  "description": "train-cli-dev utils",
+  "author": "Train <983727446@qq.com>",
+  "homepage": "https://github.com/TrainTu/Arrangement#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrainTu/Arrangement.git"
+  },
+  "scripts": {
+    "test": "echo \"run testing from utils\""
+  },
+  "bugs": {
+    "url": "https://github.com/TrainTu/Arrangement/issues"
+  },
+  "dependencies": {
+  }
+}
